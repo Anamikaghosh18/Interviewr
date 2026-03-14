@@ -6,19 +6,34 @@ import cors from "cors";
 import { serve } from "inngest/express";
 import { inngest, functions } from "./lib/inngest.js";
 import { clerkMiddleware } from "@clerk/express";
-import { protectRoute } from "./middleware/protectRoute.js";
+
 import chatRoutes from "./routes/chatRoutes.js";
 import sessionRoutes from "./routes/sessionRoutes.js";
 
 const app = express();
-
 const __dirname = path.resolve();
 
 // middlewares
 app.use(express.json());
 
-// server allows a browser to include cookies on request
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+const allowedOrigins = [process.env.CLIENT_URL, "http://localhost:5173"];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  }),
+);
+
+app.use(clerkMiddleware());
 
 app.use(
   "/api/inngest",
@@ -30,7 +45,6 @@ app.use(
 
 app.use("/api/chat", chatRoutes);
 app.use("/api/sessions", sessionRoutes);
-app.use(clerkMiddleware()); // this adds auth field to request object
 
 app.get("/health", (req, res) => {
   res.status(200).json({ msg: "API is up and running" });

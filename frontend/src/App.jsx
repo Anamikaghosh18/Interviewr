@@ -1,41 +1,57 @@
-import {
-  SignInButton,
-  SignOutButton,
-  UserButton,
-  SignedIn,
-  SignedOut,
-  useUser,
-} from "@clerk/clerk-react";
-import { Routes, Route, Navigate } from "react-router";
-import HomePage from "./pages/HomePage.jsx";
-import ProblemsPage from "./pages/ProblemsPage.jsx";
-import ProblemPage from "./pages/ProblemPage.jsx";
+import { useUser, useAuth } from "@clerk/clerk-react";
+import { Navigate, Route, Routes } from "react-router";
+import { useEffect } from "react";
+
 import { Toaster } from "react-hot-toast";
-import DashboardPage from "./pages/DashoardPage.jsx";
+
+import HomePage from "./pages/HomePage";
+import DashboardPage from "./pages/DashoardPage";
+import ProblemPage from "./pages/ProblemPage";
+import ProblemsPage from "./pages/ProblemsPage";
+import SessionPage from "./pages/SessionPage";
+
+import { setAuthToken } from "./lib/axios"; // important
 
 function App() {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    setAuthToken(getToken);
+  }, [getToken]);
+
+  if (!isLoaded) return null;
+
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-
         <Route
-          path="/problems"
-          element={isSignedIn ? <ProblemsPage /> : <Navigate to={"/"} />}
-        />
-
-        <Route
-          path="/problem/:id"
-          element={isSignedIn ? <ProblemPage /> : <Navigate to={"/"} />}
+          path="/"
+          element={!isSignedIn ? <HomePage /> : <Navigate to="/dashboard" />}
         />
 
         <Route
           path="/dashboard"
-          element={isSignedIn ? <DashboardPage /> : <Navigate to={"/"} />}
+          element={isSignedIn ? <DashboardPage /> : <Navigate to="/" />}
+        />
+
+        <Route
+          path="/problems"
+          element={isSignedIn ? <ProblemsPage /> : <Navigate to="/" />}
+        />
+
+        <Route
+          path="/problem/:id"
+          element={isSignedIn ? <ProblemPage /> : <Navigate to="/" />}
+        />
+
+        <Route
+          path="/session/:id"
+          element={isSignedIn ? <SessionPage /> : <Navigate to="/" />}
         />
       </Routes>
-      <Toaster />
+
+      <Toaster toastOptions={{ duration: 3000 }} />
     </>
   );
 }

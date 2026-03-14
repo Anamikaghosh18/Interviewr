@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^4.13.23",
     "@clerk/express": "^2.0.4",
     "@stream-io/node-sdk": "^0.7.44",
     "cors": "^2.8.6",
