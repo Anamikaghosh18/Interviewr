@@ -46,7 +46,7 @@ function ActiveSessions({ sessions, isLoading, isUserInSession }) {
                 <div className="flex items-center justify-between gap-4 p-5">
                   {/* LEFT SIDE */}
                   <div className="flex items-center gap-4 flex-1">
-                    <div className="relative size-14 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <div className="relative size-14 rounded-xl bg-cyan-950 flex items-center justify-center">
                       <Code2Icon className="size-7 text-white" />
                       <div className="absolute -top-1 -right-1 size-4 bg-success rounded-full border-2 border-base-100" />
                     </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { PROBLEMS } from "../data/problems.js";
+import { PROBLEMS } from "../data/problems";
 import Navbar from "../components/Navbar";
 
 import { Panel, Group, Separator } from "react-resizable-panels";

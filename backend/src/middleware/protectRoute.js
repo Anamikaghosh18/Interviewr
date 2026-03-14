@@ -24,8 +24,6 @@ export const protectRoute = [
           },
           { upsert: true, new: true },
         );
-
-        console.log("User created in DB:", user);
       }
 
       req.user = user;
