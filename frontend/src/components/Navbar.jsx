@@ -27,7 +27,12 @@ function Navbar() {
             <img
               src="/logo.png"
               alt="Interviewr logo"
-              style={{ width: 32, height: 32, objectFit: "contain" }}
+              style={{
+                width: 40,
+                height: 40,
+                objectFit: "contain",
+                borderRadius: "8px",
+              }}
             />
             <div
               style={{
