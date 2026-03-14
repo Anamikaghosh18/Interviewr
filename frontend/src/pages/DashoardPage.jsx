@@ -5,7 +5,7 @@ import {
   useActiveSessions,
   useCreateSession,
   useMyRecentSessions,
-} from "../hooks/useSession.js";
+} from "../hooks/useSessions.js";
 
 import Navbar from "../components/Navbar";
 import WelcomeSection from "../components/WelcomeSection";
