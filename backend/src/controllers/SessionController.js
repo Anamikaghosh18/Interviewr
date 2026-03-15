@@ -135,28 +135,35 @@ export async function endSession(req, res) {
 
     if (!session) return res.status(404).json({ message: "Session not found" });
 
-    // check if user is the host
     if (session.host.toString() !== userId.toString()) {
       return res.status(403).json({ message: "Only the host can end the session" });
     }
 
-    // check if session is already completed
     if (session.status === "completed") {
-      return res.status(400).json({ message: "Session is already completed" });
+      return res.status(400).json({ message: "Session already completed" });
     }
 
-    // delete stream video call
-    const call = streamClient.video.call("default", session.callId);
-    await call.delete({ hard: true });
+    try {
+      const call = streamClient.video.call("default", session.callId);
+      await call.delete({ hard: true });
+    } catch (err) {
+      console.log("Call already deleted or not found:", err.message);
+    }
 
-    // delete stream chat channel
-    const channel = chatClient.channel("messaging", session.callId);
-    await channel.delete();
+    try {
+      const channel = chatClient.channel("messaging", session.callId);
+      await channel.delete();
+    } catch (err) {
+      console.log("Chat channel already deleted:", err.message);
+    }
 
     session.status = "completed";
     await session.save();
 
-    res.status(200).json({ session, message: "Session ended successfully" });
+    res.status(200).json({
+      session,
+      message: "Session ended successfully",
+    });
   } catch (error) {
     console.log("Error in endSession controller:", error.message);
     res.status(500).json({ message: "Internal Server Error" });

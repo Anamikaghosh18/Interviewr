@@ -5,14 +5,7 @@ import { Link } from "react-router";
 const FEATURES = [
   {
     icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        width={20}
-        height={20}
-      >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={20} height={20}>
         <polyline points="16,18 22,12 16,6" />
         <polyline points="8,6 2,12 8,18" />
       </svg>
@@ -22,50 +15,27 @@ const FEATURES = [
   },
   {
     icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        width={20}
-        height={20}
-      >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={20} height={20}>
         <polygon points="23,7 16,12 23,17" />
         <rect x="1" y="5" width="15" height="14" rx="2" />
       </svg>
     ),
-
     title: "1-on-1 video calls",
     desc: "HD video interviews. Mic, camera toggle, screen sharing, and session recording built in.",
   },
   {
     icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        width={20}
-        height={20}
-      >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={20} height={20}>
         <path d="M9 11l3 3L22 4" />
         <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
       </svg>
     ),
-
     title: "Auto feedback",
     desc: "Instant pass/fail results based on test cases. Confetti on success, detailed failure breakdown on errors.",
   },
   {
     icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        width={20}
-        height={20}
-      >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={20} height={20}>
         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
       </svg>
     ),
@@ -74,14 +44,7 @@ const FEATURES = [
   },
   {
     icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        width={20}
-        height={20}
-      >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={20} height={20}>
         <rect x="3" y="11" width="18" height="11" rx="2" />
         <path d="M7 11V7a5 5 0 0110 0v4" />
       </svg>
@@ -91,14 +54,7 @@ const FEATURES = [
   },
   {
     icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        width={20}
-        height={20}
-      >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={20} height={20}>
         <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
         <circle cx="9" cy="7" r="4" />
         <path d="M23 21v-2a4 4 0 00-3-3.87" />
@@ -192,29 +148,12 @@ const TESTS = [
   { label: "Large input test", status: "pending", time: "—" },
 ];
 
-function LogoIcon({ size = 32 }) {
-  return (
-    <div
-      style={{
-        width: size,
-        height: size,
-        borderRadius: size * 0.25,
-        background: "var(--ind)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexShrink: 0,
-      }}
-    >
-      <img
-        viewBox="0 0 20 20"
-        fill="none"
-        width={size * 0.56}
-        height={size * 0.56}
-      ></img>
-    </div>
-  );
-}
+const DASHBOARD_CANDIDATES = [
+  { name: "Alex Rivera", problem: "Two Sum", score: 92, status: "pass", time: "18 min", date: "Today" },
+  { name: "Jamie Song", problem: "Valid Parentheses", score: 78, status: "pass", time: "24 min", date: "Today" },
+  { name: "Morgan Blake", problem: "Binary Search", score: 45, status: "fail", time: "31 min", date: "Yesterday" },
+  { name: "Taylor Kim", problem: "Merge Intervals", score: 88, status: "pass", time: "22 min", date: "Yesterday" },
+];
 
 function Avatar({ initials, bg, color, size = 34 }) {
   return (
@@ -238,6 +177,476 @@ function Avatar({ initials, bg, color, size = 34 }) {
   );
 }
 
+// ── Tab content components ──────────────────────────────────────────────────
+
+function CodeEditorTab({ dark }) {
+  return (
+    <div
+      className="demo-inner"
+      style={{ display: "grid", gridTemplateColumns: "1fr 300px", minHeight: 260 }}
+    >
+      <div
+        style={{
+          padding: 16,
+          background: "#0d1117",
+          fontFamily: "'DM Mono', monospace",
+          fontSize: 12,
+          lineHeight: 1.8,
+        }}
+      >
+        {CODE_LINES.map((line, i) => (
+          <div
+            key={i}
+            style={{
+              background: line.highlight ? "rgba(99,102,241,0.12)" : "transparent",
+              borderLeft: line.highlight ? "2px solid #6366F1" : "2px solid transparent",
+              paddingLeft: 6,
+              marginLeft: -6,
+            }}
+          >
+            <span style={{ color: "#64748b", marginRight: 10 }}>{line.num}</span>
+            {line.tokens.map((tok, j) => (
+              <span key={j} style={{ color: tok.c }}>{tok.t}</span>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div style={{ padding: 16, borderLeft: "0.5px solid var(--border)" }}>
+        <div style={{ fontSize: 12, fontWeight: 500, marginBottom: 12, color: "var(--muted)" }}>
+          Test results
+        </div>
+        {TESTS.map((t) => (
+          <div
+            key={t.label}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "8px 0",
+              borderBottom: "0.5px solid var(--border)",
+            }}
+          >
+            <div
+              style={{
+                width: 14,
+                height: 14,
+                borderRadius: "50%",
+                flexShrink: 0,
+                background:
+                  t.status === "pass"
+                    ? "var(--success)"
+                    : t.status === "fail"
+                    ? "var(--err)"
+                    : "var(--border)",
+              }}
+            />
+            <span style={{ fontSize: 12 }}>{t.label}</span>
+            <span style={{ fontSize: 11, color: "var(--muted)", marginLeft: "auto" }}>
+              {t.time}
+            </span>
+          </div>
+        ))}
+        <div
+          style={{
+            marginTop: 14,
+            padding: 10,
+            background: "var(--bg)",
+            borderRadius: 8,
+            fontSize: 12,
+            color: "var(--muted)",
+          }}
+        >
+          3/4 passed · O(n) time complexity
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VideoCallTab({ dark }) {
+  const [micOn, setMicOn] = useState(true);
+  const [camOn, setCamOn] = useState(true);
+
+  return (
+    <div style={{ background: "#0d1117", minHeight: 260, display: "flex", flexDirection: "column" }}>
+      {/* Video grid */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, padding: 12, flex: 1 }}>
+        {/* Participant 1 — camera on */}
+        <div
+          style={{
+            background: "#1a2332",
+            borderRadius: 12,
+            minHeight: 160,
+            position: "relative",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "2px solid #6366F1",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              background: "linear-gradient(135deg, #1e3a5f 0%, #0f2942 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Avatar initials="AR" bg="#3B82F6" color="#fff" size={52} />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              bottom: 8,
+              left: 8,
+              background: "rgba(0,0,0,0.6)",
+              borderRadius: 6,
+              padding: "3px 8px",
+              fontSize: 11,
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "#10B981",
+                flexShrink: 0,
+              }}
+            />
+            Alex Rivera (You)
+          </div>
+          {/* Speaking indicator */}
+          <div
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              background: "rgba(99,102,241,0.85)",
+              borderRadius: 6,
+              padding: "2px 7px",
+              fontSize: 10,
+              color: "#fff",
+            }}
+          >
+            Speaking
+          </div>
+        </div>
+
+        {/* Participant 2 — camera off */}
+        <div
+          style={{
+            background: "#111827",
+            borderRadius: 12,
+            minHeight: 160,
+            position: "relative",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "0.5px solid #1e293b",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <Avatar initials="JS" bg="#059669" color="#fff" size={52} />
+            <span style={{ fontSize: 11, color: "#64748b" }}>Camera off</span>
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              bottom: 8,
+              left: 8,
+              background: "rgba(0,0,0,0.6)",
+              borderRadius: 6,
+              padding: "3px 8px",
+              fontSize: 11,
+              color: "#fff",
+            }}
+          >
+            Jamie Song
+          </div>
+          {/* Muted badge */}
+          <div
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              background: "rgba(239,68,68,0.85)",
+              borderRadius: 6,
+              padding: "2px 7px",
+              fontSize: 10,
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <svg width={10} height={10} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+              <line x1="1" y1="1" x2="23" y2="23" />
+              <path d="M9 9v3a3 3 0 005.12 2.12M15 9.34V4a3 3 0 00-5.94-.6" />
+              <path d="M17 16.95A7 7 0 015 12v-2m14 0v2a7 7 0 01-.11 1.23" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+            Muted
+          </div>
+        </div>
+      </div>
+
+      {/* Controls bar */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 12,
+          padding: "12px 16px",
+          borderTop: "0.5px solid #1e293b",
+        }}
+      >
+        {/* Mic toggle */}
+        <button
+          onClick={() => setMicOn((v) => !v)}
+          title={micOn ? "Mute mic" : "Unmute mic"}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            border: "none",
+            background: micOn ? "#1e293b" : "#EF4444",
+            color: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            transition: "background 0.2s",
+          }}
+        >
+          {micOn ? (
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" />
+              <path d="M19 10v2a7 7 0 01-14 0v-2" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+          ) : (
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <line x1="1" y1="1" x2="23" y2="23" />
+              <path d="M9 9v3a3 3 0 005.12 2.12M15 9.34V4a3 3 0 00-5.94-.6" />
+              <path d="M17 16.95A7 7 0 015 12v-2m14 0v2a7 7 0 01-.11 1.23" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+          )}
+        </button>
+
+        {/* Camera toggle */}
+        <button
+          onClick={() => setCamOn((v) => !v)}
+          title={camOn ? "Turn off camera" : "Turn on camera"}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            border: "none",
+            background: camOn ? "#1e293b" : "#EF4444",
+            color: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            transition: "background 0.2s",
+          }}
+        >
+          {camOn ? (
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <polygon points="23,7 16,12 23,17" />
+              <rect x="1" y="5" width="15" height="14" rx="2" />
+            </svg>
+          ) : (
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path d="M16 16v1a2 2 0 01-2 2H3a2 2 0 01-2-2V7a2 2 0 012-2h2m5.66 0H14a2 2 0 012 2v3.34" />
+              <polygon points="23,7 16,12 23,17" />
+              <line x1="1" y1="1" x2="23" y2="23" />
+            </svg>
+          )}
+        </button>
+
+        {/* Screen share */}
+        <button
+          title="Share screen"
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            border: "none",
+            background: "#1e293b",
+            color: "#94A3B8",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
+        >
+          <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <path d="M8 21h8M12 17v4" />
+          </svg>
+        </button>
+
+        {/* End call */}
+        <button
+          title="End call"
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            border: "none",
+            background: "#EF4444",
+            color: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
+        >
+          <svg width={18} height={18} viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" />
+          </svg>
+        </button>
+
+        {/* Timer */}
+        <div
+          style={{
+            marginLeft: 8,
+            fontSize: 13,
+            color: "#94A3B8",
+            fontFamily: "'DM Mono', monospace",
+          }}
+        >
+          24:17
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DashboardTab({ dark }) {
+  const stats = [
+    { label: "Sessions this week", value: "14", delta: "+3", up: true },
+    { label: "Pass rate", value: "71%", delta: "+5%", up: true },
+    { label: "Avg duration", value: "23 min", delta: "-2 min", up: true },
+  ];
+
+  return (
+    <div style={{ padding: 20, minHeight: 260 }}>
+      {/* Stat cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
+        {stats.map((s) => (
+          <div
+            key={s.label}
+            style={{
+              background: "var(--bg)",
+              border: "0.5px solid var(--border)",
+              borderRadius: 10,
+              padding: "14px 16px",
+            }}
+          >
+            <div style={{ fontSize: 11, color: "var(--muted)", marginBottom: 6 }}>{s.label}</div>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ fontSize: 22, fontWeight: 600 }}>{s.value}</span>
+              <span
+                style={{
+                  fontSize: 11,
+                  color: s.up ? "var(--success)" : "var(--err)",
+                  fontWeight: 500,
+                }}
+              >
+                {s.delta}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Recent candidates table */}
+      <div style={{ fontSize: 12, fontWeight: 500, color: "var(--muted)", marginBottom: 10 }}>
+        Recent candidates
+      </div>
+      <div
+        style={{
+          background: "var(--bg)",
+          border: "0.5px solid var(--border)",
+          borderRadius: 10,
+          overflow: "hidden",
+        }}
+      >
+        {DASHBOARD_CANDIDATES.map((c, i) => (
+          <div
+            key={c.name}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr auto auto auto",
+              alignItems: "center",
+              gap: 12,
+              padding: "10px 14px",
+              borderBottom:
+                i < DASHBOARD_CANDIDATES.length - 1 ? "0.5px solid var(--border)" : "none",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <Avatar
+                initials={c.name.split(" ").map((n) => n[0]).join("")}
+                bg={dark ? "#1e3a5f" : "#DBEAFE"}
+                color={dark ? "#60a5fa" : "#1D4ED8"}
+                size={28}
+              />
+              <span style={{ fontSize: 13, fontWeight: 500 }}>{c.name}</span>
+            </div>
+            <span style={{ fontSize: 12, color: "var(--muted)" }}>{c.problem}</span>
+            <span style={{ fontSize: 13, fontWeight: 500 }}>{c.score}</span>
+            <span
+              style={{
+                fontSize: 11,
+                padding: "2px 8px",
+                borderRadius: 6,
+                background:
+                  c.status === "pass"
+                    ? dark ? "#14532d" : "#D1FAE5"
+                    : dark ? "#450a0a" : "#FEE2E2",
+                color:
+                  c.status === "pass"
+                    ? dark ? "#4ade80" : "#065F46"
+                    : dark ? "#f87171" : "#991B1B",
+                fontWeight: 500,
+              }}
+            >
+              {c.status === "pass" ? "Passed" : "Failed"}
+            </span>
+            <span style={{ fontSize: 11, color: "var(--muted)" }}>{c.time}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Main component ──────────────────────────────────────────────────────────
+
 export default function HomePage() {
   const [dark, setDark] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
@@ -255,6 +664,8 @@ export default function HomePage() {
     "--warn": "#F59E0B",
     "--err": "#EF4444",
   };
+
+  const TAB_LABELS = ["Code editor", "Video call", "Dashboard"];
 
   return (
     <div
@@ -296,6 +707,8 @@ export default function HomePage() {
           .feat-grid      { grid-template-columns: 1fr 1fr !important; }
           .step-grid      { grid-template-columns: 1fr 1fr !important; }
           .demo-inner     { grid-template-columns: 1fr !important; }
+          .dash-stats     { grid-template-columns: 1fr 1fr !important; }
+          .dash-row       { grid-template-columns: 1fr auto auto !important; }
         }
         @media (max-width: 560px) {
           .feat-grid      { grid-template-columns: 1fr !important; }
@@ -320,28 +733,16 @@ export default function HomePage() {
           zIndex: 100,
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <img
             src="/logo.png"
             alt="Interviewr logo"
             style={{ width: 32, height: 32, objectFit: "contain" }}
           />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              lineHeight: 1.1,
-            }}
-          >
+          <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
             <span style={{ fontSize: 20, fontWeight: 500 }}>Interviewr</span>
             <span style={{ fontSize: 11, color: "var(--muted)", marginTop: 2 }}>
-              Smart Coversation. Better Hiring.
+              Smart Conversation. Better Hiring.
             </span>
           </div>
         </div>
@@ -365,26 +766,12 @@ export default function HomePage() {
             }}
           >
             {dark ? (
-              <svg
-                width={16}
-                height={16}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                 <circle cx="12" cy="12" r="5" />
                 <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
               </svg>
             ) : (
-              <svg
-                width={16}
-                height={16}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
               </svg>
             )}
@@ -428,9 +815,7 @@ export default function HomePage() {
       </nav>
 
       {/* ════ HERO ════ */}
-      <section
-        style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 2rem 60px" }}
-      >
+      <section style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 2rem 60px" }}>
         <div
           className="hero-grid"
           style={{
@@ -457,14 +842,7 @@ export default function HomePage() {
                 marginBottom: 20,
               }}
             >
-              <span
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: "var(--ind)",
-                }}
-              />
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--ind)" }} />
               Now with AI-powered feedback
             </div>
 
@@ -479,9 +857,7 @@ export default function HomePage() {
               }}
             >
               The modern platform for{" "}
-              <em style={{ fontStyle: "normal", color: "var(--ind)" }}>
-                technical interviews
-              </em>
+              <em style={{ fontStyle: "normal", color: "var(--ind)" }}>technical interviews</em>
             </h1>
 
             <p
@@ -494,15 +870,11 @@ export default function HomePage() {
                 maxWidth: 460,
               }}
             >
-              Real-time video calls, a VSCode-powered code editor, screen
-              sharing, and instant feedback — everything you need to run or ace
-              a technical interview.
+              Real-time video calls, a VSCode-powered code editor, screen sharing, and instant
+              feedback — everything you need to run or ace a technical interview.
             </p>
 
-            <div
-              className="fade-up fade-up-4"
-              style={{ display: "flex", gap: 12, flexWrap: "wrap" }}
-            >
+            <div className="fade-up fade-up-4" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               {isSignedIn ? (
                 <Link to="/problems">
                   <button
@@ -546,12 +918,7 @@ export default function HomePage() {
           {/* Right — two cards */}
           <div
             className="hero-right"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 16,
-              minHeight: 420,
-            }}
+            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, minHeight: 420 }}
           >
             {/* Photo card */}
             <div
@@ -565,12 +932,7 @@ export default function HomePage() {
               <img
                 src="/hero.jpg"
                 alt="Technical interview platform"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               />
             </div>
 
@@ -585,7 +947,6 @@ export default function HomePage() {
                 flexDirection: "column",
               }}
             >
-              {/* Fake title bar */}
               <div
                 style={{
                   padding: "10px 12px",
@@ -598,15 +959,7 @@ export default function HomePage() {
                 }}
               >
                 {["#EF4444", "#F59E0B", "#10B981"].map((c) => (
-                  <div
-                    key={c}
-                    style={{
-                      width: 9,
-                      height: 9,
-                      borderRadius: "50%",
-                      background: c,
-                    }}
-                  />
+                  <div key={c} style={{ width: 9, height: 9, borderRadius: "50%", background: c }} />
                 ))}
                 <span
                   style={{
@@ -619,7 +972,6 @@ export default function HomePage() {
                   interview-session.tsx
                 </span>
               </div>
-              {/* Code body */}
               <div
                 style={{
                   padding: 12,
@@ -642,28 +994,19 @@ export default function HomePage() {
                     <div
                       key={i}
                       style={{
-                        background: line.highlight
-                          ? "rgba(99,102,241,0.12)"
-                          : "transparent",
-                        borderLeft: line.highlight
-                          ? "2px solid #6366F1"
-                          : "2px solid transparent",
+                        background: line.highlight ? "rgba(99,102,241,0.12)" : "transparent",
+                        borderLeft: line.highlight ? "2px solid #6366F1" : "2px solid transparent",
                         paddingLeft: 5,
                         marginLeft: -5,
                       }}
                     >
-                      <span style={{ color: "#64748b", marginRight: 8 }}>
-                        {line.num}
-                      </span>
+                      <span style={{ color: "#64748b", marginRight: 8 }}>{line.num}</span>
                       {line.tokens.map((tok, j) => (
-                        <span key={j} style={{ color: tok.c }}>
-                          {tok.t}
-                        </span>
+                        <span key={j} style={{ color: tok.c }}>{tok.t}</span>
                       ))}
                     </div>
                   ))}
                 </div>
-                {/* Participant bar */}
                 <div
                   style={{
                     display: "flex",
@@ -676,25 +1019,9 @@ export default function HomePage() {
                     flexShrink: 0,
                   }}
                 >
-                  <Avatar
-                    initials="AR"
-                    bg="#DBEAFE"
-                    color="#1D4ED8"
-                    size={26}
-                  />
-                  <Avatar
-                    initials="JS"
-                    bg="#D1FAE5"
-                    color="#065F46"
-                    size={26}
-                  />
-                  <span
-                    style={{
-                      fontSize: 11,
-                      color: "var(--muted)",
-                      marginLeft: 2,
-                    }}
-                  >
+                  <Avatar initials="AR" bg="#DBEAFE" color="#1D4ED8" size={26} />
+                  <Avatar initials="JS" bg="#D1FAE5" color="#065F46" size={26} />
+                  <span style={{ fontSize: 11, color: "var(--muted)", marginLeft: 2 }}>
                     Live • 24:17
                   </span>
                   <div
@@ -719,9 +1046,7 @@ export default function HomePage() {
       </section>
 
       {/* ════ FEATURES ════ */}
-      <section
-        style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 2rem" }}
-      >
+      <section style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 2rem" }}>
         <div
           style={{
             fontSize: 12,
@@ -734,14 +1059,7 @@ export default function HomePage() {
         >
           Features
         </div>
-        <h2
-          style={{
-            fontSize: 34,
-            fontWeight: 500,
-            marginBottom: 12,
-            letterSpacing: "-0.3px",
-          }}
-        >
+        <h2 style={{ fontSize: 34, fontWeight: 500, marginBottom: 12, letterSpacing: "-0.3px" }}>
           Everything in one place
         </h2>
         <p
@@ -753,18 +1071,14 @@ export default function HomePage() {
             marginBottom: 40,
           }}
         >
-          From scheduling to feedback, Interviewr covers every step of the
-          technical interview process.
+          From scheduling to feedback, Interviewr covers every step of the technical interview
+          process.
         </p>
         <div
           className="feat-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 16,
-          }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}
         >
-          {FEATURES.map((f, index) => (
+          {FEATURES.map((f) => (
             <div
               key={f.title}
               className="feature-card"
@@ -792,18 +1106,8 @@ export default function HomePage() {
                 >
                   {f.icon}
                 </div>
-                <div style={{ fontSize: 15, fontWeight: 500, marginBottom: 6 }}>
-                  {f.title}
-                </div>
-                <div
-                  style={{
-                    fontSize: 13,
-                    color: "var(--muted)",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {f.desc}
-                </div>
+                <div style={{ fontSize: 15, fontWeight: 500, marginBottom: 6 }}>{f.title}</div>
+                <div style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.6 }}>{f.desc}</div>
               </div>
             </div>
           ))}
@@ -811,9 +1115,7 @@ export default function HomePage() {
       </section>
 
       {/* ════ LIVE DEMO ════ */}
-      <section
-        style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem 60px" }}
-      >
+      <section style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem 60px" }}>
         <div
           style={{
             fontSize: 12,
@@ -830,11 +1132,12 @@ export default function HomePage() {
           A real interview environment
         </h2>
         <p style={{ fontSize: 15, color: "var(--muted)", marginBottom: 20 }}>
-          Candidates code, you watch. Test cases run instantly. Feedback is
-          automatic.
+          Candidates code, you watch. Test cases run instantly. Feedback is automatic.
         </p>
+
+        {/* Tab switcher */}
         <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-          {["Code editor", "Video call", "Dashboard"].map((t, i) => (
+          {TAB_LABELS.map((t, i) => (
             <button
               key={t}
               onClick={() => setActiveTab(i)}
@@ -855,6 +1158,8 @@ export default function HomePage() {
             </button>
           ))}
         </div>
+
+        {/* Tab panel */}
         <div
           style={{
             background: "var(--card)",
@@ -863,6 +1168,7 @@ export default function HomePage() {
             overflow: "hidden",
           }}
         >
+          {/* Shared header bar */}
           <div
             style={{
               height: 48,
@@ -874,141 +1180,74 @@ export default function HomePage() {
               gap: 12,
             }}
           >
-            <span style={{ fontSize: 13, fontWeight: 500 }}>two-sum.js</span>
-            <span
-              style={{
-                fontSize: 11,
-                padding: "2px 8px",
-                borderRadius: 6,
-                background: dark ? "#14532d" : "#D1FAE5",
-                color: dark ? "#4ade80" : "#065F46",
-              }}
-            >
-              Live session
-            </span>
-            <span
-              style={{
-                marginLeft: "auto",
-                fontSize: 12,
-                color: "var(--muted)",
-              }}
-            >
-              2 participants
-            </span>
-          </div>
-          <div
-            className="demo-inner"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 300px",
-              minHeight: 260,
-            }}
-          >
-            <div
-              style={{
-                padding: 16,
-                background: "#0d1117",
-                fontFamily: "'DM Mono', monospace",
-                fontSize: 12,
-                lineHeight: 1.8,
-              }}
-            >
-              {CODE_LINES.map((line, i) => (
-                <div
-                  key={i}
+            {activeTab === 0 && (
+              <>
+                <span style={{ fontSize: 13, fontWeight: 500 }}>two-sum.js</span>
+                <span
                   style={{
-                    background: line.highlight
-                      ? "rgba(99,102,241,0.12)"
-                      : "transparent",
-                    borderLeft: line.highlight
-                      ? "2px solid #6366F1"
-                      : "2px solid transparent",
-                    paddingLeft: 6,
-                    marginLeft: -6,
+                    fontSize: 11,
+                    padding: "2px 8px",
+                    borderRadius: 6,
+                    background: dark ? "#14532d" : "#D1FAE5",
+                    color: dark ? "#4ade80" : "#065F46",
                   }}
                 >
-                  <span style={{ color: "#64748b", marginRight: 10 }}>
-                    {line.num}
-                  </span>
-                  {line.tokens.map((tok, j) => (
-                    <span key={j} style={{ color: tok.c }}>
-                      {tok.t}
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
-            <div
-              style={{ padding: 16, borderLeft: "0.5px solid var(--border)" }}
-            >
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                  marginBottom: 12,
-                  color: "var(--muted)",
-                }}
-              >
-                Test results
-              </div>
-              {TESTS.map((t) => (
-                <div
-                  key={t.label}
+                  Live session
+                </span>
+                <span style={{ marginLeft: "auto", fontSize: 12, color: "var(--muted)" }}>
+                  2 participants
+                </span>
+              </>
+            )}
+            {activeTab === 1 && (
+              <>
+                <span style={{ fontSize: 13, fontWeight: 500 }}>Video call</span>
+                <span
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    padding: "8px 0",
-                    borderBottom: "0.5px solid var(--border)",
+                    fontSize: 11,
+                    padding: "2px 8px",
+                    borderRadius: 6,
+                    background: dark ? "#14532d" : "#D1FAE5",
+                    color: dark ? "#4ade80" : "#065F46",
                   }}
                 >
-                  <div
-                    style={{
-                      width: 14,
-                      height: 14,
-                      borderRadius: "50%",
-                      flexShrink: 0,
-                      background:
-                        t.status === "pass"
-                          ? "var(--success)"
-                          : t.status === "fail"
-                            ? "var(--err)"
-                            : "var(--border)",
-                    }}
-                  />
-                  <span style={{ fontSize: 12 }}>{t.label}</span>
-                  <span
-                    style={{
-                      fontSize: 11,
-                      color: "var(--muted)",
-                      marginLeft: "auto",
-                    }}
-                  >
-                    {t.time}
-                  </span>
-                </div>
-              ))}
-              <div
-                style={{
-                  marginTop: 14,
-                  padding: 10,
-                  background: "var(--bg)",
-                  borderRadius: 8,
-                  fontSize: 12,
-                  color: "var(--muted)",
-                }}
-              >
-                3/4 passed · O(n) time complexity
-              </div>
-            </div>
+                  HD · Encrypted
+                </span>
+                <span style={{ marginLeft: "auto", fontSize: 12, color: "var(--muted)" }}>
+                  2 participants
+                </span>
+              </>
+            )}
+            {activeTab === 2 && (
+              <>
+                <span style={{ fontSize: 13, fontWeight: 500 }}>Hiring dashboard</span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    padding: "2px 8px",
+                    borderRadius: 6,
+                    background: dark ? "#1e3a5f" : "#DBEAFE",
+                    color: dark ? "#60a5fa" : "#1D4ED8",
+                  }}
+                >
+                  This week
+                </span>
+                <span style={{ marginLeft: "auto", fontSize: 12, color: "var(--muted)" }}>
+                  4 candidates
+                </span>
+              </>
+            )}
           </div>
+
+          {/* Tab content */}
+          {activeTab === 0 && <CodeEditorTab dark={dark} />}
+          {activeTab === 1 && <VideoCallTab dark={dark} />}
+          {activeTab === 2 && <DashboardTab dark={dark} />}
         </div>
       </section>
 
       {/* ════ HOW IT WORKS ════ */}
-      <section
-        style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 2rem 60px" }}
-      >
+      <section style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 2rem 60px" }}>
         <div
           style={{
             fontSize: 12,
@@ -1021,14 +1260,7 @@ export default function HomePage() {
         >
           How it works
         </div>
-        <h2
-          style={{
-            fontSize: 34,
-            fontWeight: 500,
-            marginBottom: 12,
-            letterSpacing: "-0.3px",
-          }}
-        >
+        <h2 style={{ fontSize: 34, fontWeight: 500, marginBottom: 12, letterSpacing: "-0.3px" }}>
           From invite to feedback in minutes
         </h2>
         <p
@@ -1079,38 +1311,15 @@ export default function HomePage() {
                 <img
                   src={`/${s.img}`}
                   alt={s.title}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </div>
               <div style={{ padding: "20px 22px 24px" }}>
-                <div
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 500,
-                    color: "var(--ind)",
-                    marginBottom: 6,
-                  }}
-                >
+                <div style={{ fontSize: 11, fontWeight: 500, color: "var(--ind)", marginBottom: 6 }}>
                   {s.num}
                 </div>
-                <div
-                  style={{ fontSize: 16, fontWeight: 600, marginBottom: 10 }}
-                >
-                  {s.title}
-                </div>
-                <div
-                  style={{
-                    fontSize: 13,
-                    color: "var(--muted)",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {s.desc}
-                </div>
+                <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 10 }}>{s.title}</div>
+                <div style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.6 }}>{s.desc}</div>
               </div>
             </div>
           ))}
@@ -1118,9 +1327,7 @@ export default function HomePage() {
       </section>
 
       {/* ════ CTA ════ */}
-      <section
-        style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem 60px" }}
-      >
+      <section style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem 60px" }}>
         <div
           style={{
             background: "var(--ind)",
@@ -1174,8 +1381,7 @@ export default function HomePage() {
               position: "relative",
             }}
           >
-            Join thousands of engineers and hiring teams using Interviewr every
-            day.
+            Join thousands of engineers and hiring teams using Interviewr every day.
           </p>
           <SignInButton mode="modal">
             <button
@@ -1225,23 +1431,14 @@ export default function HomePage() {
             alt="Interviewr logo"
             style={{ width: 32, height: 32, objectFit: "contain" }}
           />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              lineHeight: 1.1,
-            }}
-          >
+          <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
             <span style={{ fontSize: 20, fontWeight: 500 }}>Interviewr</span>
             <span style={{ fontSize: 11, color: "var(--muted)", marginTop: 2 }}>
-              Smart Coversation. Better Hiring.
+              Smart Conversation. Better Hiring.
             </span>
           </div>
         </div>
-
-        <div style={{ fontSize: 12, color: "var(--muted)" }}>
-          © 2026 Interviewr
-        </div>
+        <div style={{ fontSize: 12, color: "var(--muted)" }}>© 2026 Interviewr</div>
       </footer>
     </div>
   );

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend", 
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
     "start": "npm start --prefix backend"
   },
   "repository": {
@@ -17,5 +17,8 @@
     "url": "https://github.com/Anamikaghosh18/Interviewr/issues"
   },
   "homepage": "https://github.com/Anamikaghosh18/Interviewr#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
 }

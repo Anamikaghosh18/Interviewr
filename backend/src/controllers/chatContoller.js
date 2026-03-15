@@ -1,6 +1,9 @@
+import { chatClient } from "../lib/stream.js";
 export async function getStreamToken(req, res) {
   try {
-    // clerkId for stream => it should match the id we have in the stream dashboard
+    if (!req.user) {
+      return res.status(401).json({ message: "User not authenticated" });
+    }
 
     const token = chatClient.createToken(req.user.clerkId);
 
@@ -8,9 +11,10 @@ export async function getStreamToken(req, res) {
       token,
       userId: req.user.clerkId,
       userName: req.user.name,
-      userImage: req.user.image,
+      userImage: req.user.profileImage, // <-- important fix
     });
   } catch (error) {
+    console.log("STREAM TOKEN ERROR:", error);
     res.status(500).json({
       message: "Internal server error",
     });
